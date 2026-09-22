@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="장편 소설 원고 일괄 교정 도구 — 설치 없이 브라우저에서 실행됩니다.">
+<meta name="description" content="장편 소설 원고 일괄 교정 도구 — 한글 맞춤법 고시 기준. 설치 없이 브라우저에서 실행됩니다.">
 <style>:root{color-scheme:light dark}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>소설 교정지</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -263,7 +263,7 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
       <h3>고유 용어</h3>
       <div class="body">
         <div class="tags" id="termTags"></div>
-        <input class="inp" id="termInput" placeholder="지명·마법·조직명 등" autocomplete="off">
+        <input class="inp" id="termInput" placeholder="지명·조직명 등 (띄어쓰기 포함 가능)" autocomplete="off">
       </div>
     </section>
 
@@ -275,6 +275,20 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
         <p class="hint">앗·윽·쿵·두근두근처럼 흔한 감탄사와 의성어 <b id="sfxBuiltin"></b>가지는 이미 들어 있고,
         <b>아아아·쿵쿵·으아아악</b>처럼 늘여 쓰거나 겹쳐 쓴 형태는 자동으로 알아봅니다.
         여기 등록한 말은 맞춤법·띄어쓰기 검사에서 통째로 빠집니다.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>사전 백업</h3>
+      <div class="body">
+        <div class="row" style="margin-top:0">
+          <button class="btn sm" id="dictOut">파일로 저장</button>
+          <button class="btn sm" id="dictIn">파일에서 불러오기</button>
+          <input type="file" id="dictFile" accept=".json,application/json" hidden>
+        </div>
+        <p class="hint">인물 사전·고유 용어·효과음·검사 옵션을 json 파일 하나로 내려받습니다.
+        브라우저 데이터를 지우거나 다른 컴퓨터로 옮길 때 이 파일로 되살리세요.
+        <b>원고는 들어가지 않습니다.</b></p>
       </div>
     </section>
 
@@ -376,8 +390,10 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
           고치라는 뜻이 아니라 한 번 봐 달라는 표시입니다. 판단은 작가의 몫입니다.</li>
           <li><b>‘띄어쓰기 심화’와 ‘문체·번역투’는 꺼져 있습니다.</b> 잘못 잡을 여지가 있어 기본값을 끔으로 두었습니다.
           왼쪽 <b>검사 옵션</b>에서 켜 보고 결과가 마음에 들면 유지하세요.</li>
-          <li><b>인물 사전과 설정은 이 브라우저에 남습니다.</b> 다음에 같은 파일을 열면 그대로 있습니다.
-          작업하던 원고도 대개 이어서 뜹니다. 다른 컴퓨터로 옮기면 이름은 다시 등록해야 합니다.</li>
+          <li><b>인물 사전과 설정은 이 브라우저에 남습니다.</b> 새 버전이 올라와도 지워지지 않습니다.
+          작업하던 원고도 대개 이어서 뜹니다. 다만 브라우저 데이터를 지우거나 다른 컴퓨터·다른 브라우저로 옮기면
+          다시 등록해야 하니, 장편 작업 전에 왼쪽 <b>사전 백업 → 파일로 저장</b>을 한 번 해 두시길 권합니다.
+          그 json 파일만 있으면 어디서든 그대로 되살립니다.</li>
           <li><b>인터넷이 없어도 됩니다.</b> 연결이 없으면 글꼴만 컴퓨터 기본 글꼴로 바뀌고 기능은 같습니다.</li>
           <li><b>권장 브라우저</b>는 크롬·엣지·사파리 최신 버전입니다. 인터넷 익스플로러에서는 열리지 않습니다.</li>
         </ul>
@@ -387,6 +403,12 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
           <li>지금 보시는 것은 <b id="verLine"></b>입니다.
           <b>링크로 열고 계신다면</b> 새로 고치기만 해도 늘 최신 버전입니다. 다시 내려받을 필요가 없습니다.
           파일을 내려받아 쓰고 계신다면 그 파일은 받은 시점에 멈춰 있습니다.</li>
+          <li><b>2.0</b> — 한글 맞춤법 고시를 기준으로 재정비: 제42항 의존명사, 제43항 단위명사,
+          제45항 및, 제47항 보조용언, 제51항 부사 '-이/-히', 제54항 된소리 접미사,
+          제57항 구별할 말(선택 표시)</li>
+          <li><b>1.9</b> — 띄어쓰기 규칙 대폭 확대: 관형형 뒤의 명사(올 덕분에·늦은 탓에·할 필요·본 순간),
+          수와 단위(두 명·세 시간·다섯 살), 부정의 "안"(안 하고), 조사 앞 공백</li>
+          <li><b>1.8</b> — 사전 백업(파일로 저장·불러오기) 추가, 띄어쓴 용어가 쪼개지던 문제 수정</li>
           <li><b>1.7</b> — 체·채·째 구분 추가 (통째로·사흘째·못 본 체하다)</li>
           <li><b>1.6</b> — 대사용 맞춤법 추가 (말했대·있잖아·알겠어·아니었어)</li>
           <li><b>1.5</b> — 대사와 효과음을 검사에서 빼는 기능, 여러 문단에 걸친 대사 인식</li>
@@ -584,6 +606,55 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
   s('반듯히', '반듯이', 2, '"반듯이"(똑바로)와 "반드시"(꼭)를 구분하세요.');
   ['솔직', '가만', '꼼꼼', '조용', '정확', '특별', '간단', '분명', '확실', '도저', '당당', '은근', '부지런', '각별', '무심', '천천'].forEach(function (b) {
     s(b + '이 ', b + '히 ', 3, '"-히"로 적는 부사입니다.');
+  });
+
+
+  /* --- 한글 맞춤법 제54항 : 된소리로 적는 접미사 --- */
+  [['심부름꾼','심부름군'],['익살꾼','익살군'],['일꾼','일군'],['장꾼','장군'],
+   ['장난꾼','장난군'],['지게꾼','지겟군'],['지게꾼','지게군'],
+   ['때깔','땟갈'],['빛깔','빛갈'],['성깔','성갈'],
+   ['귀때기','귓대기'],['볼때기','볼대기'],['판자때기','판잣대기'],
+   ['뒤꿈치','뒷굼치'],['뒤꿈치','뒤굼치'],['팔꿈치','팔굼치'],
+   ['이마빼기','이맛배기'],['코빼기','콧배기'],
+   ['객쩍','객적'],['겸연쩍','겸연적'],['코빼기','코배기'],['이마빼기','이마배기'],['뒤꿈치','뒤꿈치']].forEach(function (x) {
+    if (x[1] === '장군') return;              // 將軍과 겹치므로 제외
+    s(x[1], x[0], 3, '맞춤법 제54항 — 이 접미사는 된소리로 적습니다.');
+  });
+
+  /* --- 제51항 : '이'로만 나는 부사는 '-이' --- */
+  ['가붓','나붓','느긋','둥긋','따뜻','버젓','산뜻','의젓','깨끗','반듯',
+   '겹겹','번번','일일','집집','틈틈','샅샅','낱낱','다달','곰곰','나날',
+   '가까','날카로','대수로','번거로','헛되'].forEach(function (b) {
+    s(b + '히', b + '이', 3, '맞춤법 제51항 — 끝음절이 "이"로만 나는 부사입니다.');
+  });
+
+  /* --- 제51항 : '이·히'로 나는 부사는 '-히' (뒤에 공백이 올 때만) --- */
+  ['솔직','가만','간편','나른','무단','각별','소홀','쓸쓸','정결','과감',
+   '꼼꼼','급급','답답','섭섭','공평','당당','분명','상당','조용','간소',
+   '고요','도저','엄격','정확','무심','천천','은근','부지런','간단','확실','특별'].forEach(function (b) {
+    s(b + '이 ', b + '히 ', 3, '맞춤법 제51항 — "-히"로 적는 부사입니다.');
+  });
+
+  /* --- 제57항 중 기계적으로 판별되는 것 --- */
+  [['마음을 조리', '마음을 졸이', 3, '애태우는 것은 "졸이다". "조리다"는 국물을 바짝 끓이는 것.'],
+   ['가슴을 조리', '가슴을 졸이', 3, '애태우는 것은 "졸이다".'],
+   ['마음을 조렸', '마음을 졸였', 3, '애태우는 것은 "졸이다".'],
+   ['배추를 저리', '배추를 절이', 3, '소금에 담그는 것은 "절이다". "저리다"는 감각이 둔해지는 것.'],
+   ['소금에 저리', '소금에 절이', 3, '소금에 담그는 것은 "절이다".'],
+   ['약을 다리', '약을 달이', 3, '끓여 우려내는 것은 "달이다". "다리다"는 옷의 주름을 펴는 것.'],
+   ['약을 다렸', '약을 달였', 3, '끓여 우려내는 것은 "달이다".'],
+   ['옷을 달이', '옷을 다리', 3, '옷의 주름을 펴는 것은 "다리다".'],
+   ['밥을 앉히', '밥을 안치', 3, '음식을 솥에 넣는 것은 "안치다". "앉히다"는 자리에 앉게 하는 것.'],
+   ['밥을 앉혔', '밥을 안쳤', 3, '음식을 솥에 넣는 것은 "안치다".'],
+   ['금목거리', '금목걸이', 3, '장신구는 "목걸이". "목거리"는 목이 붓는 병.'],
+   ['은목거리', '은목걸이', 3, '장신구는 "목걸이".'],
+   ['진주목거리', '진주목걸이', 3, '장신구는 "목걸이".'],
+   ['어름이 얼', '얼음이 얼', 3, '물이 굳은 것은 "얼음". "어름"은 두 물건의 사이.'],
+   ['하므로써', '함으로써', 3, '수단을 뜻하면 "-ㅁ으로써". "-(으)므로"는 까닭을 뜻하는 어미.'],
+   ['함으로서', '함으로써', 3, '수단을 뜻하면 "-로써". "-로서"는 자격을 뜻합니다.'],
+   ['됨으로서', '됨으로써', 3, '수단을 뜻하면 "-로써".'],
+   ['그럼으로서', '그럼으로써', 3, '수단을 뜻하면 "-로써".']].forEach(function (x) {
+    s(x[0], x[1], x[2], x[3]);
   });
 
   /* --- 흔한 표기 오류 --- */
@@ -893,6 +964,165 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
     re: /(첫|두|세|네|다섯|여섯|일곱|여덟|아홉|열|[0-9]+)번째/g,
     fix: function (m) { return m[1] + ' 번째'; }
   });
+  // --- 제57항 : 구별하여 적어야 할 말 (참고 표시 · 기본 꺼짐) ---
+  var CONFUSE = [
+    ['부딪치', '스스로 부딪은 것은 "부딪치다", 남에게 당한 것은 "부딪히다".'],
+    ['부딪히', '남에게 당한 것은 "부딪히다", 스스로 부딪은 것은 "부딪치다".'],
+    ['부치', '힘이 부치다·편지를 부치다·전을 부치다는 "부치다". 풀로 붙이는 것은 "붙이다".'],
+    ['붙이', '맞닿게 하는 것은 "붙이다". 힘이 모자라거나 보내는 것은 "부치다".'],
+    ['바치', '정성이나 목숨을 드리는 것은 "바치다". 아래를 지탱하는 것은 "받치다".'],
+    ['받치', '아래를 지탱하는 것은 "받치다". 뿔·차에 당한 것은 "받히다", 체로 거르는 것은 "밭치다".'],
+    ['반드시', '꼭이라는 뜻은 "반드시". 똑바로라는 뜻은 "반듯이".'],
+    ['반듯이', '똑바로라는 뜻은 "반듯이". 꼭이라는 뜻은 "반드시".'],
+    ['늘이', '길이를 길게 하는 것은 "늘이다"(고무줄을 늘인다). 수나 양을 많게 하는 것은 "늘리다".'],
+    ['늘리', '수·양을 많게 하는 것은 "늘리다"(수출량을 늘린다). 길이를 길게 하는 것은 "늘이다".'],
+    ['맞히', '정답·과녁을 맞게 하는 것은 "맞히다". 끝내는 것은 "마치다", 대조·조정은 "맞추다".'],
+    ['맞추', '서로 비교·조정하는 것은 "맞추다". 정답을 맞게 하는 것은 "맞히다".'],
+    ['거치', '지나오는 것은 "거치다"(영월을 거쳐 왔다). 걷어지는 것은 "걷히다".'],
+    ['걷히', '걷어지는 것은 "걷히다"(외상값이 걷힌다). 지나오는 것은 "거치다".'],
+    ['이따가', '조금 뒤를 뜻하면 "이따가". 머무름을 뜻하면 "있다가".'],
+    ['있다가', '머무름을 뜻하면 "있다가". 조금 뒤를 뜻하면 "이따가".'],
+    ['로서', '자격을 뜻하면 "-로서"(사람으로서). 수단을 뜻하면 "-로써"(닭으로써).'],
+    ['로써', '수단을 뜻하면 "-로써". 자격을 뜻하면 "-로서".'],
+    ['그러므로', '까닭을 뜻하면 "그러므로". 그렇게 하는 것으로라는 뜻이면 "그럼으로(써)".'],
+    ['시키', '남에게 하게 하는 것은 "시키다". 뜨거운 것을 차게 하는 것은 "식히다".'],
+    ['식히', '뜨거운 것을 차게 하는 것은 "식히다". 남에게 하게 하는 것은 "시키다".'],
+    ['조리', '국물을 바짝 끓이는 것은 "조리다". 애태우는 것은 "졸이다".'],
+    ['졸이', '애태우는 것은 "졸이다". 국물을 바짝 끓이는 것은 "조리다".'],
+    ['저리', '감각이 둔해지는 것은 "저리다". 소금에 담그는 것은 "절이다".'],
+    ['절이', '소금에 담그는 것은 "절이다". 감각이 둔해지는 것은 "저리다".'],
+    ['다리', '옷의 주름을 펴는 것은 "다리다". 끓여 우려내는 것은 "달이다".'],
+    ['달이', '끓여 우려내는 것은 "달이다". 옷의 주름을 펴는 것은 "다리다".'],
+    ['안치', '음식을 솥에 넣는 것은 "안치다". 자리에 앉게 하는 것은 "앉히다".'],
+    ['앉히', '자리에 앉게 하는 것은 "앉히다". 음식을 솥에 넣는 것은 "안치다".'],
+    ['하노라고', '까닭이면 "하느라고"(공부하느라고 밤을 새웠다). "하노라고"는 나름대로 했다는 뜻.'],
+    ['하느라고', '까닭을 뜻하면 "하느라고"가 맞습니다. 나름대로 했다는 뜻이면 "하노라고".'],
+    ['걷잡', '수습한다는 뜻은 "걷잡다"(걷잡을 수 없다). 어림잡는 것은 "겉잡다".'],
+    ['거름', '비료는 "거름". 걷는 것은 "걸음".'],
+    ['걸음', '걷는 것은 "걸음". 비료는 "거름".'],
+    ['노름', '도박은 "노름". 놀이는 "놀음".'],
+    ['가름', '나누는 것은 "가름". 대신하는 것은 "갈음".'],
+    ['어름', '두 물건의 사이는 "어름". 물이 굳은 것은 "얼음".'],
+    ['주리', '굶는 것은 "주리다". 적게 하는 것은 "줄이다".'],
+    ['느리', '속도가 더딘 것은 "느리다". 길이를 길게 하는 것은 "늘이다".']
+  ];
+  CONFUSE.forEach(function (x, i) {
+    // 어간이 'ㅣ'로 끝나면 활용형(늘려·늘렸·늘린·늘릴)까지 함께 찾습니다.
+    var forms = [x[0]], last = x[0].slice(-1);
+    if (jung(last) === 20 && jong(last) === 0) {
+      ['n', 'l', 'ss', 'eo'].forEach(function (k) {
+        var f = conj(x[0], k); if (f) forms.push(f);
+      });
+    }
+    forms.sort(function (a, b) { return b.length - a.length; });
+    c({
+      id: 'cf-' + i, cat: 'spell', sev: 1, confuse: true, noFix: true,
+      title: '"' + x[0] + '다" — 뜻에 맞는 표기인지 확인하세요 (제57항)',
+      re: new RegExp('(?:^|[^가-힣])(' + forms.join('|') + ')', 'g'),
+      note: x[1]
+    });
+  });
+
+  // --- 제42항 : 의존 명사는 띄어 쓴다 (관형형 뒤) ---
+  var DEP_NOUN = [
+    ['바', '', ''], ['따름', '', ''], ['나위', '', ''], ['턱', '', '문'], ['겨를', '', ''],
+    ['노릇', '', ''], ['나름', '', ''], ['때문', '', ''], ['적', '', '목직면표'],
+    ['양', '', '모수음'], ['법', '', '방헌불민형'], ['터', '', '']
+  ];
+  DEP_NOUN.forEach(function (x) {
+    var noun = x[0], blk = x[2];
+    c({
+      id: 'dep-' + noun, cat: 'space', sev: 2,
+      title: '"' + noun + '"은 의존명사 — 앞말과 띄어 씁니다 (제42항)',
+      re: new RegExp('([가-힣])' + noun + '(?=[이가은는을를도만에의로과와였라며]|[^가-힣]|$)', 'g'),
+      test: function (m) {
+        var t = jong(m[1]);
+        if (t !== J4 && t !== J8) return false;
+        return blk.indexOf(m[1]) < 0;
+      },
+      fix: function (m) { return m[1] + ' ' + noun; }
+    });
+  });
+
+  // --- 제45항 : 두 말을 이어 주는 말은 띄어 쓴다 ---
+  c({
+    id: 'sp-mit', cat: 'space', sev: 3, title: '"및"은 앞뒤를 띄어 씁니다 (제45항)',
+    re: /([가-힣])및([가-힣])/g,
+    fix: function (m) { return m[1] + ' 및 ' + m[2]; }
+  });
+
+  // --- 제47항 다만 : 중간에 조사가 들어가면 보조 용언을 띄어 쓴다 ---
+  c({
+    id: 'sp-bojo', cat: 'space', sev: 2, title: '보조 용언 사이에 조사가 들어가면 띄어 씁니다 (제47항)',
+    re: /([가-힣])(듯|만|체|척|법)(도|은|는|을|를)(하|한|할|했|합|해|싶)/g,
+    test: function (m) { var t = jong(m[1]); return t === J4 || t === J8; },
+    fix: function (m) { return m[1] + ' ' + m[2] + m[3] + ' ' + m[4]; }
+  });
+
+  // --- 제57항 : -(으)러(목적) / -(으)려(의도) ---
+  c({
+    id: 'sp-ryeo', cat: 'spell', sev: 2, title: '의도를 나타내면 "-려"입니다 (제57항)',
+    re: /([가-힣])러[ \t]*(한다|했다|하다|합니다|하고|하니|하였)/g,
+    fix: function (m) { return m[1] + '려 ' + m[2]; },
+    note: '"-(으)러"는 목적(공부하러 간다), "-(으)려"는 의도(서울 가려 한다).'
+  });
+
+  // --- 관형형(-ㄴ/-ㄹ) + 명사 : 명사는 언제나 띄어 씁니다 ---
+  var GWAN_NOUN = [
+    ['덕분',''], ['탓',''], ['대신','에'], ['필요',''], ['까닭',''], ['셈',''], ['나머지',''],
+    ['와중',''], ['무렵',''], ['즈음',''], ['순간','들'], ['까닭',''], ['바람','에'],
+    ['다음','에'], ['뒤','에'], ['후','에'], ['참','에'], ['김','에'], ['통','에'],
+    ['정도',''], ['모양',''], ['눈치',''], ['느낌',''], ['기색',''], ['낌새',''], ['기미',''],
+    ['생각',''], ['마음',''], ['자신',''], ['용기',''], ['이유',''], ['방법',''], ['도리',''],
+    ['기분',''], ['표정',''], ['자리',''], ['사이',''], ['동안',''], ['쪽',''], ['편','']
+  ];
+  var GWAN_BLOCK = {
+    '뒤': '등문', '후': '이전직오', '다음': '', '참': '한', '통': '온한고전',
+    '쪽': '그이저양한반', '편': '한그이저양', '사이': '', '동안': '그한',
+    '자리': '일본제', '정도': '', '생각': '', '마음': '', '대신': '', '순간': '',
+    '모양': '', '느낌': '', '이유': '', '방법': '', '표정': '', '기분': '',
+    '살': '', '장': '', '개': ''
+  };
+  GWAN_NOUN.forEach(function (pair) {
+    var noun = pair[0], tail = pair[1];
+    var blk = GWAN_BLOCK[noun] || '';
+    c({
+      id: 'sp-n-' + noun, cat: 'space', sev: 2,
+      title: '"' + noun + '"은 명사 — 앞말과 띄어 씁니다',
+      re: new RegExp('([가-힣])' + noun + '(?=[이가은는을를도만에의로과와란였예라며임]|[^가-힣]|$)', 'g'),
+      test: function (m) {
+        var t = jong(m[1]);
+        if (t !== J4 && t !== J8) return false;
+        return blk.indexOf(m[1]) < 0;
+      },
+      fix: function (m) { return m[1] + ' ' + noun; }
+    });
+  });
+
+  // --- 수관형사 + 단위 의존명사 ---
+  var NUM = '두|세|네|다섯|여섯|일곱|여덟|아홉|열|스무|서른|마흔|쉰|몇|여러';
+  var UNIT = '명|개|마리|살|시간|가지|권|장|잔|그릇|켤레|자루|송이|방울|모금|줌|걸음|발짝|쌍|벌|척|채|그루|포기|마지기|톨|톳|죽|쾌|돈';
+  c({
+    id: 'sp-num-unit', cat: 'space', sev: 2, title: '수를 세는 말은 단위와 띄어 씁니다',
+    re: new RegExp('(' + NUM + ')(' + UNIT + ')(?=[이가은는을를도만에의로과와]|[^가-힣]|$)', 'g'),
+    fix: function (m) { return m[1] + ' ' + m[2]; }
+  });
+
+  // --- 부정의 "안" + 용언 ---
+  c({
+    id: 'sp-an-ha', cat: 'space', sev: 2, title: '부정의 "안"은 띄어 씁니다',
+    re: /(^|[^가-힣])안(하|해|했|한|할)(?=[^가-힣]|[고지는데서야요다면])/g,
+    fix: function (m) { return m[1] + '안 ' + m[2]; },
+    note: '"안하무인"처럼 한 단어라면 무시하세요.'
+  });
+
+  // --- 조사 앞 공백 (2음절 이상 조사 추가) ---
+  c({
+    id: 'sp-josa2', cat: 'space', sev: 2, title: '조사는 앞말에 붙여 씁니다',
+    re: /([가-힣]) (에게서|에게로|으로부터|로부터|이라도|라도|조차|마저|커녕|이나마|나마|한테|께서|더러)(?=[\s.,!?"'”’…]|$)/g,
+    fix: function (m) { return m[1] + m[2]; }
+  });
+
   // --- 띄어쓰기 심화 (오탐 가능 · 기본 꺼짐) ---
   c({
     id: 'sp-ppun', cat: 'space', sev: 1, title: '관형형 뒤의 "뿐"은 띄어 씁니다',
@@ -1263,6 +1493,7 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
             if (rule.cat === 'style' && !useStyle) continue;
             if (rule.id === 'pt-dialog-end' && !useDialogDot) continue;
             if (rule.optional && rule.cat === 'space' && !opts.advSpacing) continue;
+            if (rule.confuse && !opts.confuse) continue;
             rule.re.lastIndex = 0;
             var mm;
             while ((mm = rule.re.exec(chunk))) {
@@ -1494,7 +1725,7 @@ textarea.ms{width:100%;min-height:340px;resize:vertical;padding:16px 18px;border
 (function(){
 'use strict';
 var R = window.KR_RULES, E = window.KRCheck;
-var APP_VERSION = '1.7', APP_DATE = '2026-09-17';
+var APP_VERSION = '2.0', APP_DATE = '2026-09-22';
 var $ = function(id){ return document.getElementById(id); };
 var nf = function(n){ return (n||0).toLocaleString('ko-KR'); };
 
@@ -1529,7 +1760,7 @@ var st = {
   issues:[], groups:[], stats:null, bulkC:{},
   off:{}, ignoreG:{}, ignoreI:{}, scanStats:null,
   bulkOn:{}, opts:{ style:false, dialogDot:false, advSpacing:false, ellipsis:'……', longSent:180,
-    skipDialogue:true, skipSfx:true, minRepeatLen:8 },
+    skipDialogue:true, skipSfx:true, minRepeatLen:8, confuse:false },
   page:0, showFixed:false, shownGroups:120, expanded:{}
 };
 R.B.forEach(function(b){ st.bulkOn[b.id] = b.on; });
@@ -1656,6 +1887,7 @@ function renderOpts(){
   $('opts').innerHTML =
     sw('optDlg2','대사 안은 느슨하게', '큰따옴표·작은따옴표 안은 반복·리듬과 문체 검사에서 뺍니다. 맞춤법은 그대로 봅니다.', o.skipDialogue) +
     sw('optSfx','감탄사·효과음 건너뛰기', '앗·윽·쿵쾅·아아아 같은 말은 검사하지 않습니다.', o.skipSfx) +
+    sw('optConf','혼동하기 쉬운 말 표시', '맞춤법 제57항의 구별해야 할 말(부딪치다·부딪히다, 부치다·붙이다, 늘이다·늘리다 등)을 참고로 표시하고 뜻 차이를 알려 줍니다.', o.confuse) +
     sw('optStyle','문체·번역투 검사', '"~에 의해", "~적인" 등 번역투를 참고 항목으로 표시합니다.', o.style) +
     sw('optAdv','띄어쓰기 심화', '"뿐·만큼·대로" 등 오탐이 생길 수 있는 규칙까지 검사합니다.', o.advSpacing) +
     sw('optDlg','대화문 끝 마침표', '따옴표 안 문장이 부호 없이 끝나면 표시합니다.', o.dialogDot) +
@@ -1668,6 +1900,7 @@ function renderOpts(){
   function sw(id,t,d,v){ return '<div class="sw-row"><label for="'+id+'">'+t+'<small>'+d+'</small></label><input type="checkbox" class="tg" id="'+id+'"'+(v?' checked':'')+'></div>'; }
   $('optDlg2').onchange  = function(){ o.skipDialogue=this.checked; save(); run(); };
   $('optSfx').onchange   = function(){ o.skipSfx=this.checked; save(); run(); };
+  $('optConf').onchange  = function(){ o.confuse=this.checked; save(); run(); };
   $('optStyle').onchange = function(){ o.style=this.checked; save(); run(); };
   $('optAdv').onchange   = function(){ o.advSpacing=this.checked; save(); run(); };
   $('optDlg').onchange   = function(){ o.dialogDot=this.checked; save(); run(); };
@@ -1727,7 +1960,8 @@ function renderSugg(){
   });
 }
 function addName(v, kind){
-  String(v).split(/[,、·\s]+/).forEach(function(n){
+  // 쉼표·가운뎃점·줄바꿈으로만 나눕니다. "북방 초원"처럼 띄어쓴 이름을 쪼개지 않기 위해서입니다.
+  String(v).split(/[,;、·\n]+/).forEach(function(n){
     n = n.trim(); if(!n) return;
     var arr = kind === 'term' ? st.terms : kind === 'sfx' ? st.sfx : st.names;
     if(arr.indexOf(n) < 0) arr.push(n);
@@ -1930,7 +2164,7 @@ function run(){
     names: st.names, terms: st.terms, style: st.opts.style,
     dialogDot: st.opts.dialogDot, advSpacing: st.opts.advSpacing, longSent: st.opts.longSent,
     skipDialogue: st.opts.skipDialogue, skipSfx: st.opts.skipSfx,
-    sfxExtra: st.sfx, minRepeatLen: st.opts.minRepeatLen
+    sfxExtra: st.sfx, minRepeatLen: st.opts.minRepeatLen, confuse: st.opts.confuse
   }, function(p){ $('progBar').style.width = Math.round(p*100)+'%'; }).then(function(res){
     st.issues = res.issues;
     st.scanStats = res.stats;
@@ -2003,6 +2237,16 @@ $('nameInput').addEventListener('keydown', function(e){
 $('termInput').addEventListener('keydown', function(e){
   if(e.key==='Enter'){ e.preventDefault(); addName(this.value, 'term'); this.value=''; }
 });
+$('dictOut').onclick = function(){ dictExport(); };
+$('dictIn').onclick = function(){ $('dictFile').click(); };
+$('dictFile').onchange = function(){
+  var f = this.files[0]; if(!f) return;
+  var fr = new FileReader();
+  fr.onload = function(){ dictImport(String(fr.result)); };
+  fr.onerror = function(){ toast('파일을 읽지 못했습니다.'); };
+  fr.readAsText(f, 'utf-8');
+  this.value = '';
+};
 $('sfxInput').addEventListener('keydown', function(e){
   if(e.key==='Enter'){ e.preventDefault(); addName(this.value, 'sfx'); this.value=''; }
 });
@@ -2019,31 +2263,63 @@ function outName(){
 }
 $('dlBtn').onclick = function(){
   var out = '\ufeff' + E.applyFixes(st.text, accepted(), st.bulkOn, st.opts);
-  var name = outName();
+  downloadText(outName(), out, 'text/plain;charset=utf-8', '수정본을 내려받았습니다.');
+};
+function downloadText(name, text, mime, okMsg){
   if(window.claude && window.claude.use){
-    // 웹(링크)으로 열린 경우: 브라우저 직접 내려받기가 막혀 있으므로 클립보드로 되돌립니다.
+    // 웹(아티팩트)으로 열린 경우: 브라우저 직접 내려받기가 막혀 있어 클립보드로 되돌립니다.
     window.claude.use('downloads').then(function(d){
-      if(!d){ copy(out, '이 화면에서는 파일 저장을 쓸 수 없어 수정본을 클립보드에 복사했습니다.'); return; }
-      d.save({ filename: name, data: out }).then(function(){ toast('수정본을 저장했습니다.'); })
+      if(!d){ copy(text, '이 화면에서는 파일 저장을 쓸 수 없어 클립보드에 복사했습니다.'); return; }
+      d.save({ filename: name, data: text }).then(function(){ toast(okMsg); })
         .catch(function(err){
           if(err && err.code === 'declined') return;
-          copy(out, '파일로 저장하지 못해 수정본을 클립보드에 복사했습니다.');
+          copy(text, '파일로 저장하지 못해 클립보드에 복사했습니다.');
         });
-    }).catch(function(){ copy(out, '파일로 저장하지 못해 수정본을 클립보드에 복사했습니다.'); });
-  } else saveLocal(out, name);   // 내려받은 HTML 파일로 연 경우
-};
-function saveLocal(out, name){
+    }).catch(function(){ copy(text, '파일로 저장하지 못해 클립보드에 복사했습니다.'); });
+  } else saveLocal(name, text, mime, okMsg);
+}
+function saveLocal(name, text, mime, okMsg){
   try{
-    var blob = new Blob([out], { type:'text/plain;charset=utf-8' });
+    var blob = new Blob([text], { type: mime || 'text/plain;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url; a.download = name; a.style.display = 'none';
     document.body.appendChild(a); a.click();
     setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 2000);
-    toast('수정본을 내려받았습니다.');
+    toast(okMsg);
   }catch(e){
-    copy(out, '내려받기를 쓸 수 없어 수정본을 클립보드에 복사했습니다.');
+    copy(text, '내려받기를 쓸 수 없어 클립보드에 복사했습니다.');
   }
+}
+
+/* ---------- 사전 백업 ---------- */
+function dictExport(){
+  var pack = {
+    app: '소설 교정지', version: APP_VERSION, savedAt: new Date().toISOString().slice(0,10),
+    names: st.names, terms: st.terms, sfx: st.sfx,
+    opts: st.opts, off: st.off, bulkOn: st.bulkOn
+  };
+  var d = new Date(), pad = function(n){ return (n<10?'0':'')+n; };
+  var fname = '교정지_사전_' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '.json';
+  downloadText(fname, JSON.stringify(pack, null, 2), 'application/json', '사전을 파일로 저장했습니다.');
+}
+function dictImport(text){
+  var p;
+  try{ p = JSON.parse(text); }catch(e){ toast('사전 파일을 읽지 못했습니다. 내보낸 json 파일인지 확인해 주세요.'); return; }
+  if(!p || (!p.names && !p.terms && !p.sfx)){ toast('이 파일에는 사전이 들어 있지 않습니다.'); return; }
+  var added = 0;
+  [['names','names'],['terms','terms'],['sfx','sfx']].forEach(function(pair){
+    (p[pair[0]] || []).forEach(function(n){
+      n = String(n).trim(); if(!n) return;
+      if(st[pair[1]].indexOf(n) < 0){ st[pair[1]].push(n); added++; }
+    });
+  });
+  if(p.opts) st.opts = Object.assign(st.opts, p.opts);
+  if(p.off) st.off = p.off;
+  if(p.bulkOn) st.bulkOn = p.bulkOn;
+  save(); renderNames(); renderOpts(); renderBulk(); renderFilters();
+  toast(added ? '사전을 불러왔습니다. ' + nf(added) + '개가 추가되었습니다.' : '사전을 불러왔습니다. 새로 추가된 항목은 없습니다.');
+  run();
 }
 $('copyBtn').onclick = function(){
   copy(E.applyFixes(st.text, accepted(), st.bulkOn, st.opts), '수정본을 클립보드에 복사했습니다.');
